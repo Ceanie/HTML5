@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <form>
+    <input class="file" type="file">
+  </form>
+  <button onclick="submit()">上传</button>
+</body>
+<script src="../jquery-3.2.1.min.js"></script>
+<script>
+  var obj = document.getElementsByClassName('file')[0]
+
+  function submit() {
+    var val = $('.file').val()
+
+    // var form = document.forms[0]
+    // form.submit()
+  }
+  $('.file').change(function () {
+    obj.select()
+    obj.blur()
+    var path = document.getSelection()
+    var fso = new ActiveXObject('Scripting.FileSystemObjec')
+    var fileSize = fso.GetFile(path).size
+    alert(fileSize)
+
+  })
+</script>
+
+</html>

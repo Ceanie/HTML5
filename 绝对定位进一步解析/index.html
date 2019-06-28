@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .container{
+      position: relative;
+      border: 1px solid blue;
+      width: 500px;
+      height: 500px;
+      margin: 100px auto;
+    }
+    .child{
+      position: absolute;
+      width: 100px;
+      border:1px solid red;
+      height: 100px;
+      margin-left: 70px;
+      left: 50px;
+    }
+    .before{
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="before">未定位元素</span>
+    <span class="child">绝对定位元素 </span>
+  </div>
+</body>
+</html>
