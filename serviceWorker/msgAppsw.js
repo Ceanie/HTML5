@@ -1,10 +1,16 @@
-self.addEventListener('message', function (e) {
-  self.clients.matchAll()
-    .then(function (clients) {
-      if (clients && clients.length) {
-        clients.forEach(client => {
-          client.postMessage(e.data)
+self.addEventListener('message', function(e) {
+  const promise = self.clients.matchAll().then(function(clients) {
+    let senderId = e.source ? e.source.id : 'unknow'
+    clients.forEach(client => {
+      if (senderId === client.id) {
+        return
+      } else {
+        client.postMessage({
+          client: senderId,
+          message: e.data
         })
       }
     })
+  })
+  e.waitUntil(promise)
 })
