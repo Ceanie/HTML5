@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .expandingArea{
+            position:relative;
+            width: 200px;
+        }
+
+        textarea{
+            position:absolute;
+            display: block;
+            top:0;
+            left:0;
+            height:100%;
+            right: 0;
+        }
+        pre{
+            display:block;
+            visibility:hidden;
+            height: auto;
+            width: 100%;
+        }
+        #content{
+            visibility: hidden;
+            display: block;
+            height: auto;
+            width: 100%;
+            word-break: break-all;
+            white-space: wrap;
+            word-wrap:break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="expandingArea ">
+        <span id="content"></span><br>
+        <textarea id="area" oninput="handleInput()" placeholder="输入文字"></textarea>
+    </div>
+</body>
+<script>
+    var textarea = document.getElementById('area')
+    var span = document.getElementById('content')
+    function handleInput() {
+        span.innerHTML = textarea.value
+    }
+</script>
+</html>
