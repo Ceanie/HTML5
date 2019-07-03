@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>scrollIntoView demo1</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			height: 200vh;
+		}
+
+		.chunk {
+			margin-top: 100vh;
+			height: 20vh;
+			background: lightcoral;
+		}
+
+		div[class^=scrollIntoView] {
+			width: 250px;
+			padding: 10px 15px;
+			position: fixed;
+			top: 50vh;
+			right: 0;
+			border-radius: 10px;
+			cursor: pointer;
+			text-align: center;
+		}
+
+		.scrollIntoView {
+			background: lightgreen;
+		}
+
+		.scrollIntoViewIfNeeded-top {
+			margin-top: 50px;
+			background: lightblue;
+		}
+
+		.scrollIntoViewIfNeeded-bottom {
+			margin-top: 100px;
+			background: lightcyan;
+		}
+	</style>
+</head>
+<body>
+	<div class="chunk"></div>
+	<div class="scrollIntoView">scrollIntoView top</div>
+	<div class="scrollIntoViewIfNeeded-top">scrollIntoViewIfNeeded top</div>
+	<div class="scrollIntoViewIfNeeded-bottom">scrollIntoViewIfNeeded botom</div>
+	<script>
+    const scrollIntoView = document.querySelector('.scrollIntoView');
+    const scrollIntoViewIfNeededTop = document.querySelector('.scrollIntoViewIfNeeded-top');
+    const scrollIntoViewIfNeededBottom = document.querySelector('.scrollIntoViewIfNeeded-bottom');
+    const test = document.querySelector('.chunk');
+    scrollIntoView.addEventListener('click', function() {
+      test.scrollIntoView(true);
+    });
+    scrollIntoViewIfNeededTop.addEventListener('click', function() {
+      test.scrollIntoViewIfNeeded(true);
+    });
+    scrollIntoViewIfNeededBottom.addEventListener('click', function() {
+      test.scrollIntoViewIfNeeded(false);
+    });
+	</script>
+</body>
+</html>
