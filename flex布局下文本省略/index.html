@@ -9,18 +9,23 @@
     
     .wrapper{
       width: 200px;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
+      border: 1px solid black;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .item{
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
-      右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略
-      右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略
-      右侧换行省略右侧换行省略右侧换行省略右侧换行省略右侧换行省略
+      <div class="item">23</div>
   </div>
 </body>
 </html>
