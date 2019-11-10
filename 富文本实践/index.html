@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .xr-editor {
+      margin: 50px auto;
+      width: 1000px;
+    }
+
+    .xr-editor .nav {
+      display: flex;
+    }
+
+    .xr-editor .nav button {
+      cursor: pointer;
+    }
+
+    .xr-editor .row {
+      display: flex;
+      width: 100%;
+      height: 300px;
+    }
+
+    .xr-editor .editor {
+      flex: 1;
+      position: relative;
+      margin-right: 20px;
+      padding: 10px;
+      outline: none;
+      border: 1px solid #000;
+      overflow-y: scroll;
+    }
+
+    .xr-editor .editor img {
+      max-width: 300px;
+      max-height: 300px;
+      vertical-align: middle;
+    }
+
+    .xr-editor .content {
+      flex: 1;
+      border: 1px solid #000;
+      word-break: break-all;
+      word-wrap: break-word;
+      overflow: scroll;
+    }
+  </style>
+  </style>
+</head>
+
+<body>
+  <div class="xr-editor">
+    <!--按钮区-->
+    <div class="nav">
+      <button onclick="handle('bold')">
+        加粗
+      </button>
+      <button onclick="handle('formatBlock', '<p>')">段落
+      </button>
+      <button onclick="handle('insertUnorderedList')">
+        无序列表
+      </button>
+      <button onclick="handle('insertHorizontalRule')">
+        水平线
+      </button>
+      <button onclick="handle('undo')">
+        后退
+      </button>
+      <button onclick="handle('redo')">
+        前进
+      </button>
+      <button onclick="show()">打印</button>
+    </div>
+    <!--编辑区-->
+    <div class="editor" contenteditable="true"></div>
+    <div class="show"></div>
+  </div>
+</body>
+<script>
+  // let range = window.getSelection().getRangeAt(0)
+  // document.execCommand('bold', false, null);
+  function handle(name, args = null) {
+    document.execCommand(name, false, args)
+  }
+
+  function show() {
+    document.querySelector('.show').innerText = document.querySelector('.editor').innerHTML
+  }
+</script>
+
+</html>
