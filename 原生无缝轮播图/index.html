@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-decoration: none;
+        box-sizing: border-box;
+      }
+      .swiper {
+        width: 520px;
+        height: 280px;
+        margin: 50px auto;
+        position: relative;
+        overflow: hidden;
+      }
+      .swiper ul {
+        width: 9999px;
+        overflow: hidden;
+        /*清除浮动*/
+        /*transition: 1s;*/
+      }
+      .swiper li {
+        float: left;
+        width: 520px;
+      }
+      img{
+        width: 100%;
+        height: 280px;
+      }
+      /*按钮*/
+      .btn {
+        position: absolute;
+        top: 50%;
+        left: -4px;
+        width: 30px;
+        height: 30px;
+
+        margin-top: -15px;
+        text-align: center;
+        line-height: 27px;
+        border-radius: 50%;
+        font-size: 26px;
+        color: #fff;
+        background: #666;
+        opacity: 0.5;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+      }
+      .next {
+        left: 494px;
+      }
+      .transi {
+        transition: 500ms;
+      }
+      /*小圆点*/
+      ul.item {
+        width: 48px;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        /*清除浮动*/
+        overflow: hidden;
+        z-index: 1000;
+      }
+      .item li {
+        float: left;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #fff;
+        background: #fff;
+        border-radius: 50%;
+        margin: 0 3px;
+        cursor: pointer;
+      }
+      li.active {
+        background: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="swiper">
+      <!--图片区域-->
+      <ul class="imgBox">
+        <li><img src="../img/11.jpg" alt="" /></li>
+        <li><img src="../img/112.jpeg" alt="" /></li>
+        <li><img src="../img/64.jpg" alt="" /></li>
+      </ul>
+      <!--左右按钮-->
+      <div class="btn pre">&lt;</div>
+      <div class="btn next">&gt;</div>
+      <!--小圆点-->
+      <ul class="item">
+        <!--动态生成-->
+        <!--<li class="active"></li>
+        <li></li>
+        <li></li>-->
+      </ul>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+      //获取元素对象
+      let swiper = document.querySelector('.swiper'),
+        pre = swiper.querySelector('.pre'),
+        next = swiper.querySelector('.next'),
+        _ul = swiper.querySelector('.imgBox'), //图片ul
+        ali = _ul.querySelectorAll('li'),
+        aImg = swiper.querySelectorAll('li img'),
+        imgW = aImg[0].offsetWidth, //需要window.onload
+        index = 1, //计算滚动到哪张图片
+        isTransitioned = true, //判断动画是否已完成
+        item = swiper.querySelector('.item')
+
+      //克隆第一张图片，添加到图片队列的最后面
+      let cloneLi = ali[0].cloneNode(true)
+      _ul.appendChild(cloneLi)
+      //克隆最后一张图片，添加到图片队列的最前面
+      let cloneLastLi = ali[ali.length - 1].cloneNode(true)
+      _ul.prepend(cloneLastLi)
+
+      //定时器
+      var timer = setInterval(function() {
+        _ul.classList.add('transi')
+        index++
+        _ul.style.transform = 'translateX(' + -imgW * index + 'px)'
+        fenyeqi(index) //分页器跟随函数
+      }, 2500)
+
+      
+      _ul.addEventListener('mouseover', () => {
+        clearInterval(timer) //清除定时器
+      })
+      _ul.addEventListener('mouseout', () => {
+        timer = setInterval(function() {
+          _ul.classList.add('transi')
+          index++
+          _ul.style.transform = 'translateX(' + -imgW * index + 'px)'
+          fenyeqi(index) //分页器跟随函数
+        }, 2500)
+      })
+
+      //点击右边按钮
+      pre.addEventListener('click', () => {
+        clearInterval(timer) //清除定时器
+        if (isTransitioned) {
+          _ul.classList.add('transi')
+          index++ //先++再设置
+          _ul.style.transform = 'translateX(' + -imgW * index + 'px)'
+          isTransitioned = false
+          fenyeqi(index) //分页器跟随函数
+        }
+      })
+
+      //初始化图片队列：
+      _ul.style.transform = 'translateX(' + -imgW * index + 'px)'
+      //点击左边按钮
+      next.addEventListener('click', () => {
+        clearInterval(timer) //清除定时器
+        if (isTransitioned) {
+          _ul.classList.add('transi')
+          index--
+          _ul.style.transform = 'translateX(' + -imgW * index + 'px)'
+          isTransitioned = false
+          fenyeqi(index) //分页器跟随函数
+        }
+      })
+
+      //监听动画结束 ***
+      console.log(aImg.length)
+      _ul.addEventListener('transitionend', () => {
+        //给ul加了transi
+        if (index == aImg.length + 1) {
+          //边界判断
+          index = 1
+          _ul.classList.toggle('transi') //移除ul的transi
+          _ul.style.transform = 'translateX(' + -imgW * index + 'px)' //瞬间变回第一张
+        }
+        if (index == 0) {
+          index = aImg.length
+          _ul.classList.toggle('transi') //移除ul的transi
+          _ul.style.transform = 'translateX(' + -imgW * index + 'px)' //瞬间变回第一张
+        }
+        isTransitioned = true //每次动画结束都判断
+      })
+
+      //分页器
+      //根据图片的张数生成分页器
+      /**/ for (let i = 0; i < aImg.length; i++) {
+        //根据aImg的数量
+        var newLi = document.createElement('li')
+        item.appendChild(newLi)
+      }
+      item.children[0].classList.add('active')
+      //点击小圆点变色和换照片
+      for (let j = 0; j < item.children.length; j++) {
+        item.children[j].addEventListener('click', function() {
+          clearInterval(timer) //清除定时器
+          for (let k = 0; k < item.children.length; k++) {
+            item.children[k].classList.remove('active')
+          }
+          item.children[j].classList.add('active')
+          index = j + 1 //将j和index联系起来
+          _ul.classList.add('transi')
+          _ul.style.transform = 'translateX(' + -imgW * index + 'px)'
+        })
+      }
+      //点击左右按钮，分页器跟随 ***
+      function fenyeqi(index) {
+        for (let k = 0; k < item.children.length; k++) {
+          item.children[k].classList.remove('active')
+        }
+        index = index - 1 //因为index 的初始值为1
+        index = index == item.children.length ? 0 : index //左边按钮边界
+        index = index < 0 ? item.children.length - 1 : index //右边按钮边界  这里的index变了  比如第一次是1-- => 0； index=0-1=-1 ;=>index=item.children.length-1=2; ...
+        item.children[index].classList.add('active')
+      }
+    }
+  </script>
+</html>
