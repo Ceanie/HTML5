@@ -41,16 +41,17 @@
       max-height: 300px;
       vertical-align: middle;
     }
-
+    .choose_img {
+      width: 0;
+      height: 0;
+      display: inline-block;
+    }
     .xr-editor .content {
       flex: 1;
       border: 1px solid #000;
       word-break: break-all;
       word-wrap: break-word;
       overflow: scroll;
-    }
-    .nav_img input{
-      visibility: hidden;
     }
   </style>
   </style>
@@ -60,6 +61,7 @@
   <div class="xr-editor">
     <!--按钮区-->
     <div class="nav">
+      <input class="choose_img" type="file" accept="image/gif, image/jpeg, image/png" onchange="insertImg()"/>
       <button onclick="handle('bold')">
         加粗
       </button>
@@ -74,9 +76,8 @@
       <button onclick="insertImgLink()">
         链接
       </button>
-      <button class="nav_img">
+      <button class="nav_img" onclick="emitClick('.choose_img', 'click')">
         插入图片
-        <input type="file" accept="image/gif, image/jpeg, image/png" onchange="insertImg(e)"/>
       </button>
       <button onclick="handle('undo')">
         后退
@@ -110,11 +111,19 @@
     reader.onload = () => {
         let base64Img = reader.result;
         handle('insertImage', base64Img);
-        document.querySelector('.nav__img input').value = ''; 
+        document.querySelector('.choose_img').value = ''; 
     };
     reader.readAsDataURL(file);
   }
+  // 触发input点击事件
+  function emitClick (ele, event) {
+    const el = document.querySelector(ele)
+    if (el) {
+      el[event]()
+    }
+  }
   function show() {
+    wewewereeweere
     document.querySelector('.show').innerText = document.querySelector('.editor').innerHTML
   }
 </script>
