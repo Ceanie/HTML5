@@ -49,6 +49,9 @@
       word-wrap: break-word;
       overflow: scroll;
     }
+    .nav_img input{
+      visibility: hidden;
+    }
   </style>
   </style>
 </head>
@@ -67,6 +70,13 @@
       </button>
       <button onclick="handle('insertHorizontalRule')">
         水平线
+      </button>
+      <button onclick="insertImgLink()">
+        链接
+      </button>
+      <button class="nav_img">
+        插入图片
+        <input type="file" accept="image/gif, image/jpeg, image/png" onchange="insertImg(e)"/>
       </button>
       <button onclick="handle('undo')">
         后退
@@ -87,7 +97,23 @@
   function handle(name, args = null) {
     document.execCommand(name, false, args)
   }
-
+  // 插入链接
+  function insertImgLink () {
+    let url = window.prompt('请输入链接地址：')
+    if (url) handle('createLink', url)
+  }
+  // 插入图片
+  function insertImg (e) {
+    debugger
+    let reader = new FileReader()
+    let file = e.target.files[0]
+    reader.onload = () => {
+        let base64Img = reader.result;
+        handle('insertImage', base64Img);
+        document.querySelector('.nav__img input').value = ''; 
+    };
+    reader.readAsDataURL(file);
+  }
   function show() {
     document.querySelector('.show').innerText = document.querySelector('.editor').innerHTML
   }
