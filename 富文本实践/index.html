@@ -28,6 +28,7 @@
 
     .xr-editor .editor {
       flex: 1;
+      height: 500px;
       position: relative;
       margin-right: 20px;
       padding: 10px;
@@ -88,13 +89,14 @@
       <button onclick="show()">打印</button>
     </div>
     <!--编辑区-->
-    <div class="editor" contenteditable="true"></div>
+    <div  class="editor" contenteditable="true"></div>
     <div class="show"></div>
   </div>
 </body>
 <script>
   // let range = window.getSelection().getRangeAt(0)
   // document.execCommand('bold', false, null);
+  const editor = document.querySelector('.editor')
   function handle(name, args = null) {
     document.execCommand(name, false, args)
   }
@@ -104,14 +106,17 @@
     if (url) handle('createLink', url)
   }
   // 插入图片
-  function insertImg (e) {
-    debugger
+  function insertImg () {
+    console.log(window.event)
+    const e = window.event
     let reader = new FileReader()
     let file = e.target.files[0]
+    console.log(file)
     reader.onload = () => {
         let base64Img = reader.result;
+        console.log(base64Img)
         handle('insertImage', base64Img);
-        document.querySelector('.choose_img').value = ''; 
+        document.querySelector('.choose_img').value = ''
     };
     reader.readAsDataURL(file);
   }
@@ -124,6 +129,18 @@
   }
   function show() {
     document.querySelector('.show').innerText = document.querySelector('.editor').innerHTML
+  }
+
+  //  editor点击事件
+  editor.addEventListener('click', handleClick)
+  function handleClick (e) {
+    if (e.target && e.target.tagName && e.target.tagName.toUpperCase() === 'IMG') {
+      this.handleClickImg(e.target)
+    }
+  }
+  function handleClickImg (target) {
+    this.nowImg = img
+    this.showOverlay()
   }
 </script>
 
